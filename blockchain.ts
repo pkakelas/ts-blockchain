@@ -27,10 +27,9 @@ export default class Blockchain {
   }
 
   public addBlock (block: Block): void {
+    console.log(`[BLOCKCHAIN] Adding block to blockchain`)
     this.chain.push(block)
   }
-
-  public mineBlock (difficulty) {}
 
   public checkValid (): boolean {
     for (let i = this.getChainLength() - 1; i > 0; --i) {
@@ -50,14 +49,25 @@ export default class Blockchain {
   }
 
   public minePendingTransactions (miningRewardAddress: string) {
-    let block = new Block(Date.now(), [], this.getLatestBlock().hash)
+    let block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock().hash)
+    // Add reward transaction to the block
+    this.addToPendingTransactions(new Transaction(null, miningRewardAddress, this.miningReward))
+
     block.mine(this.difficulty)
 
     this.addBlock(block)
-    this.addToPendingTransactions(new Transaction(null, miningRewardAddress, this.miningReward))
+
+    this.flushPendingTransactions()
+    console.log(`[BLOCKCHAIN] Giving mining reward of ${this.miningReward} to ${miningRewardAddress}`)
+  }
+
+  public flushPendingTransactions () {
+    console.log(`[BLOCKCHAIN] Flushing pending transactions`)
+    this.pendingTransactions = []
   }
 
   public addToPendingTransactions (transaction: Transaction) {
+    console.log(`[BLOCKCHAIN] Adding to pending transactions transaction. ${JSON.stringify(transaction, null, 4)}`)
     this.pendingTransactions.push(transaction)
   }
 
