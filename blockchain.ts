@@ -8,7 +8,6 @@ export default class Blockchain {
 
   public createGenesisBlock(): Block {
     return new Block({
-      id: 0,
       timestamp: Date.now(),
       data: "Initial Block",
       previousHash: "",
@@ -26,7 +25,6 @@ export default class Blockchain {
 
   public addBlock (data): void {
     const block = new Block({
-      id: this.getChainLength(),
       timestamp: Date.now(),
       data: data,
       previousHash: this.getLatestBlock().hash,

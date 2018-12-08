@@ -3,15 +3,13 @@ const sha256 = require('sha256')
 type Data = any
 
 type BlockArguments = {
-  id: number,
   timestamp: number,
-  data: any,
+  data: Data,
   nonce: string
   previousHash: string
 }
 
 export default class Block {
-  public index = 0
   public timestamp: number
   public data: any
   public previousHash: string
@@ -19,7 +17,6 @@ export default class Block {
   public nonce: string
 
   constructor (args: BlockArguments) {
-    this.index = args.id
     this.timestamp = args.timestamp
     this.data = args.data
     this.nonce = args.nonce
@@ -29,7 +26,7 @@ export default class Block {
   }
 
   calculateHash (): string {
-    const toBeHashed = this.previousHash + (this.index + this.timestamp + this.data + this.nonce)
+    const toBeHashed = this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce
 
     return sha256(toBeHashed)
   }
