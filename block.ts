@@ -1,16 +1,9 @@
+import Transaction from './transaction'
 const sha256 = require('sha256')
-
-type Data = any
-
-type BlockArguments = {
-  timestamp: number,
-  transactions: []
-  previousHash: string
-}
 
 export default class Block {
   public timestamp: number
-  public transactions: any
+  public transactions: Transaction[]
   public previousHash: string
   public hash: string
   public nonce: number
@@ -40,8 +33,6 @@ export default class Block {
       this.nonce++
 
       found = this.hash.substring(0, difficulty) == prefix
-      console.log(found)
-      console.log(prefix)
     }
 
     console.log(`[BLOCK] Block mined. Hash: ${this.hash}. Time: ${Date.now() - timeStarted} ms.`)
