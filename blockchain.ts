@@ -3,7 +3,7 @@ import Transaction from './transaction'
 import { Address } from './types'
 
 export default class Blockchain {
-  private chain: Block[] = []
+  public chain: Block[] = []
   public nodes= []
   public pendingTransactions = []
   public difficulty = 4
