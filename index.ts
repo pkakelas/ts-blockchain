@@ -1,9 +1,25 @@
 import Blockchain from './blockchain'
+import Transaction from './transaction'
 import Block from './block'
 
-let chain = new Blockchain();
-chain.addBlock({amount: 5})
-chain.addBlock({amount: 10})
+const blockchain = new Blockchain()
+const myAddress = 'addr1'
+const testTransactions = [
+  new Transaction('addr1', 'addr2', 10),
+  new Transaction('addr2', 'addr3', 10),
+  new Transaction('addr3', 'addr1', 20)
+]
 
-console.log(JSON.stringify(chain, null, 4))
-console.log("Is blockchain valid? " + chain.checkValid())
+for (let trx of testTransactions) {
+  blockchain.addToPendingTransactions(trx)
+}
+
+console.log(`I have address: ${myAddress}`)
+
+console.log(`Blockchain before mining: ${JSON.stringify(blockchain.chain, null, 4)}`)
+console.log(`My balance before mining is ${blockchain.getBalance(myAddress)}`)
+
+blockchain.minePendingTransactions(myAddress)
+
+console.log(`Blockchain after mining: ${JSON.stringify(blockchain.chain, null, 4)}`)
+console.log(`My balance after is ${blockchain.getBalance(myAddress)}`)
