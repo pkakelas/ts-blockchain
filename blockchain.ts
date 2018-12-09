@@ -44,10 +44,6 @@ export default class Blockchain {
     return true
   }
 
-  public createTransaction (transaction: Transaction) {
-    this.pendingTransactions.push(transaction)
-  }
-
   public minePendingTransactions (miningRewardAddress: string) {
     let block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock().hash)
     // Add reward transaction to the block
