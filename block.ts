@@ -25,7 +25,7 @@ export default class Block {
 
   mine (difficulty) {
     let found: boolean = false
-    const prefix = Array(difficulty + 1).join("a")
+    const prefix = Array(difficulty + 1).join("0")
     const timeStarted = Date.now()
 
     while(!found) {
