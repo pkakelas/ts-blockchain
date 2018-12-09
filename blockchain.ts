@@ -4,14 +4,12 @@ import { Address } from './types'
 
 export default class Blockchain {
   public chain: Block[] = []
-  public nodes= []
   public pendingTransactions = []
   public difficulty = 4
   public miningReward = 100
 
   constructor() {
     this.chain.push(this.createGenesisBlock())
-    this.nodes = []
   }
 
   public createGenesisBlock(): Block {
