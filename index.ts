@@ -11,7 +11,7 @@ const testTransactions = [
 ]
 
 for (let trx of testTransactions) {
-  blockchain.addToPendingTransactions(trx)
+  blockchain.addToMempool(trx)
 }
 
 console.log(`I have address: ${myAddress}`)
@@ -19,7 +19,7 @@ console.log(`I have address: ${myAddress}`)
 console.log(`Blockchain before mining: ${JSON.stringify(blockchain.chain, null, 4)}`)
 console.log(`My balance before mining is ${blockchain.getBalance(myAddress)}`)
 
-blockchain.minePendingTransactions(myAddress)
+blockchain.mine(myAddress)
 
 console.log(`Blockchain after mining: ${JSON.stringify(blockchain.chain, null, 4)}`)
 console.log(`My balance after is ${blockchain.getBalance(myAddress)}`)

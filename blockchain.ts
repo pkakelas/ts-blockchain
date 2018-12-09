@@ -4,9 +4,9 @@ import { Address } from './types'
 
 export default class Blockchain {
   public chain: Block[] = []
-  public pendingTransactions = []
+  public mempool = []
   public difficulty = 4
-  public miningReward = 100
+  public coinbaseAmount = 100
 
   constructor() {
     this.chain.push(this.createGenesisBlock())
@@ -42,27 +42,27 @@ export default class Blockchain {
     return true
   }
 
-  public minePendingTransactions (miningRewardAddress: string) {
-    let block = new Block(Date.now(), this.pendingTransactions, this.getLatestBlock().hash)
-    // Add reward transaction to the block
-    this.addToPendingTransactions(new Transaction(null, miningRewardAddress, this.miningReward))
+  public mine (coinbaseAddress: string) {
+    let block = new Block(Date.now(), this.mempool, this.getLatestBlock().hash)
+    // Add coinbase transaction to the block
+    this.addToMempool(new Transaction(null, coinbaseAddress, this.coinbaseAmount))
 
     block.mine(this.difficulty)
 
     this.addBlock(block)
 
-    this.flushPendingTransactions()
-    console.log(`[BLOCKCHAIN] Giving mining reward of ${this.miningReward} to ${miningRewardAddress}`)
+    this.flushMempool()
+    console.log(`[BLOCKCHAIN] Giving mining reward of ${this.coinbaseAmount} to ${coinbaseAddress}`)
   }
 
-  public flushPendingTransactions () {
-    console.log(`[BLOCKCHAIN] Flushing pending transactions`)
-    this.pendingTransactions = []
+  public flushMempool () {
+    console.log(`[BLOCKCHAIN] Flushing mempool`)
+    this.mempool = []
   }
 
-  public addToPendingTransactions (transaction: Transaction) {
-    console.log(`[BLOCKCHAIN] Adding to pending transactions transaction. ${JSON.stringify(transaction, null, 4)}`)
-    this.pendingTransactions.push(transaction)
+  public addToMempool (transaction: Transaction) {
+    console.log(`[BLOCKCHAIN] Adding transaction to mempool. ${JSON.stringify(transaction, null, 4)}`)
+    this.mempool.push(transaction)
   }
 
   public getBalance (address: Address) {
