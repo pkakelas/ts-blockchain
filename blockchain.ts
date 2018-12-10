@@ -13,7 +13,7 @@ export default class Blockchain {
   }
 
   public createGenesisBlock(): Block {
-    return new Block(Date.now(), [], "")
+    return new Block(Date.now(), [], "0000000000000000")
   }
 
   public getLatestBlock (): Block {
@@ -29,7 +29,7 @@ export default class Blockchain {
     this.chain.push(block)
   }
 
-  public checkValid (): boolean {
+  public validateBlockchain (): boolean {
     for (let i = this.getChainLength() - 1; i > 0; --i) {
       const currentBlock = this.chain[i]
       const previousBlock = this.chain[i - 1]
